@@ -1,4 +1,11 @@
-import { Route, Switch, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  Route,
+  Switch,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import Price from "./Price";
 import Chart from "./Chart";
@@ -52,6 +59,27 @@ const OverviewItem = styled.div`
 
 const Desc = styled.p`
   margin: 20px 0;
+`;
+
+const Tabs = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+`;
+
+const Tab = styled.span<{ isActive: boolean }>`
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  padding: 7px 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  a {
+    display: block;
+  }
 `;
 
 interface RouteParams {
@@ -124,6 +152,8 @@ function Coin() {
   const { state } = useLocation<RouteState>();
   const [coinInfo, setCoinInfo] = useState<CoinInfoData>();
   const [priceInfo, setPriceInfo] = useState<PriceInfoData>();
+  const priceMatch = useRouteMatch("/:coinId/price");
+  const chartMatch = useRouteMatch("/:coinId/chart");
   useEffect(() => {
     (async () => {
       const infoData = await (
@@ -137,9 +167,6 @@ function Coin() {
       setLoading(false);
     })();
   }, [coinId]);
-
-  console.log(coinInfo);
-  console.log(priceInfo);
 
   return (
     <Container>
@@ -180,11 +207,20 @@ function Coin() {
             </OverviewItem>
           </Overview>
 
+          <Tabs>
+            <Tab isActive={priceMatch != null}>
+              <Link to={`/${coinId}/price`}>Price</Link>
+            </Tab>
+            <Tab isActive={chartMatch != null}>
+              <Link to={`/${coinId}/chart`}>Chart</Link>
+            </Tab>
+          </Tabs>
+
           <Switch>
-            <Route path={`/${coinId}/price`}>
+            <Route path="/:coinId/price">
               <Price />
             </Route>
-            <Route path={`/${coinId}/chart`}>
+            <Route path="/:coinId/chart">
               <Chart />
             </Route>
           </Switch>
