@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
+import { ReactQueryDevtools } from "react-query/devtools";
 import Router from "./Router";
 
 const GlobalStyle = createGlobalStyle`
@@ -55,23 +56,23 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: 'Poppins', sans-serif;
-    background-color: ${props => props.theme.bgColor};
-    color:  ${props => props.theme.textColor};
+    background-color: ${(props) => props.theme.bgColor};
+    color:  ${(props) => props.theme.textColor};
   }
   a {
     text-decoration: none;
     color: inherit;
   }
-`
+`;
 
 function App() {
-  
   return (
     <>
-      <GlobalStyle/>
+      <GlobalStyle />
       <Router />
+      <ReactQueryDevtools initialIsOpen={true} />
     </>
-  )
+  );
 }
 
 export default App;
