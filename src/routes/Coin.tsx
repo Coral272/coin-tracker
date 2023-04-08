@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { Fragment, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet";
 import Price from "./Price";
 import Chart from "./Chart";
 import styled from "styled-components";
@@ -42,6 +43,7 @@ const Overview = styled.div`
   border: none;
   border-radius: 10px;
   padding: 12px;
+  margin-bottom: 20px;
 `;
 
 const OverviewItem = styled.div`
@@ -49,6 +51,8 @@ const OverviewItem = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-transform: uppercase;
+
   span {
     font-size: 14px;
     font-weight: 400;
@@ -60,14 +64,14 @@ const OverviewItem = styled.div`
 `;
 
 const Desc = styled.p`
-  margin: 20px 0;
+  margin-bottom: 20px;
 `;
 
 const Tabs = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 12px;
+  margin-bottom: 20px;
 `;
 
 const Tab = styled.span<{ isActive: boolean }>`
@@ -155,7 +159,10 @@ function Coin() {
   const chartMatch = useRouteMatch("/:coinId/chart");
   const { isLoading: infoLoading, data: infoData } = useQuery<CoinInfoData>(
     ["info", coinId],
-    () => fetchCoinInfo(coinId)
+    () => fetchCoinInfo(coinId),
+    {
+      refetchInterval: 5000,
+    }
   );
   const { isLoading: tickersLoading, data: tickersData } =
     useQuery<PriceInfoData>(["tickers", coinId], () =>
@@ -165,6 +172,11 @@ function Coin() {
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -184,8 +196,8 @@ function Coin() {
               <strong>${infoData?.symbol}</strong>
             </OverviewItem>
             <OverviewItem>
-              <span>OPEN SOURCE:</span>
-              <strong>{infoData?.open_source ? "YES" : "NO"}</strong>
+              <span>Price:</span>
+              <strong>${tickersData?.quotes.USD.price.toFixed(2)}</strong>
             </OverviewItem>
           </Overview>
 
@@ -216,7 +228,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path="/:coinId/chart">
-              <Chart />
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </Fragment>
