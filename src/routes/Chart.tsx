@@ -53,8 +53,17 @@ function Chart({ coinId }: ChartProps) {
             chart: {
               height: 500,
               width: 500,
+              background: "rgba(0, 0, 0, 0.5)",
               toolbar: {
                 show: false,
+              },
+            },
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#FA5252",
+                  downward: "#20C997",
+                },
               },
             },
             yaxis: {
