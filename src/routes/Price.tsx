@@ -70,6 +70,17 @@ function Price({ coinId }: PriceProps) {
       refetchInterval: 10000,
     }
   );
+  function priceState(data: number) {
+    let state;
+    if (data > 0) {
+      state = <img src={require("../assets/chart-arrow-rise.png")} />;
+    } else if (data === 0) {
+      state = <img src={require("../assets/chart-equal.png")} />;
+    } else {
+      state = <img src={require("../assets/chart-arrow-descent.png")} />;
+    }
+    return state;
+  }
   return (
     <div>
       {isLoading ? (
@@ -87,69 +98,40 @@ function Price({ coinId }: PriceProps) {
           <OverviewItem>
             <span>Change in 30 mins</span>
             <strong>{data?.quotes.USD.percent_change_30m}</strong>
-            {data?.quotes.USD.percent_change_30m > 0 ? (
-              <img src={require("../assets/chart-arrow-rise.png")} />
-            ) : data?.quotes.USD.percent_change_30m == 0 ? (
-              <img src={require("../assets/chart-equal.png")} />
-            ) : (
-              <img src={require("../assets/chart-arrow-descent.png")} />
-            )}
+            {priceState(data?.quotes.USD.percent_change_30m)}
           </OverviewItem>
           <OverviewItem>
             <span>Change in 1 hour</span>
             <strong>{data?.quotes.USD.percent_change_1h}</strong>
-            {data?.quotes.USD.percent_change_1h > 0 ? (
+            {priceState(data?.quotes.USD.percent_change_1h)}
+            {/* {data?.quotes.USD.percent_change_1h > 0 ? (
               <img src={require("../assets/chart-arrow-rise.png")} />
             ) : data?.quotes.USD.percent_change_1h == 0 ? (
               <img src={require("../assets/chart-equal.png")} />
             ) : (
               <img src={require("../assets/chart-arrow-descent.png")} />
-            )}
+            )} */}
           </OverviewItem>
           <OverviewItem>
             <span>Change in 6 hours</span>
             <strong>{data?.quotes.USD.percent_change_6h}</strong>
-            {data?.quotes.USD.percent_change_6h > 0 ? (
-              <img src={require("../assets/chart-arrow-rise.png")} />
-            ) : data?.quotes.USD.percent_change_6h == 0 ? (
-              <img src={require("../assets/chart-equal.png")} />
-            ) : (
-              <img src={require("../assets/chart-arrow-descent.png")} />
-            )}
+            {priceState(data?.quotes.USD.percent_change_6h)}
           </OverviewItem>
 
           <OverviewItem>
             <span>Change in 12 hours</span>
             <strong>{data?.quotes.USD.percent_change_12h}</strong>
-            {data?.quotes.USD.percent_change_12h > 0 ? (
-              <img src={require("../assets/chart-arrow-rise.png")} />
-            ) : data?.quotes.USD.percent_change_12h == 0 ? (
-              <img src={require("../assets/chart-equal.png")} />
-            ) : (
-              <img src={require("../assets/chart-arrow-descent.png")} />
-            )}
+            {priceState(data?.quotes.USD.percent_change_12h)}
           </OverviewItem>
           <OverviewItem>
             <span>Change in 24 hours</span>
             <strong>{data?.quotes.USD.percent_change_24h}</strong>
-            {data?.quotes.USD.percent_change_24h > 0 ? (
-              <img src={require("../assets/chart-arrow-rise.png")} />
-            ) : data?.quotes.USD.percent_change_24h == 0 ? (
-              <img src={require("../assets/chart-equal.png")} />
-            ) : (
-              <img src={require("../assets/chart-arrow-descent.png")} />
-            )}
+            {priceState(data?.quotes.USD.percent_change_24h)}
           </OverviewItem>
           <OverviewItem>
             <span>Change in 7 days</span>
             <strong>{data?.quotes.USD.percent_change_7d}</strong>
-            {data?.quotes.USD.percent_change_7d > 0 ? (
-              <img src={require("../assets/chart-arrow-rise.png")} />
-            ) : data?.quotes.USD.percent_change_7d == 0 ? (
-              <img src={require("../assets/chart-equal.png")} />
-            ) : (
-              <img src={require("../assets/chart-arrow-descent.png")} />
-            )}
+            {priceState(data?.quotes.USD.percent_change_7d)}
           </OverviewItem>
         </Overview>
       )}
