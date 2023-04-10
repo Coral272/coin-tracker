@@ -22,13 +22,40 @@ const Container = styled.div`
 
 const Header = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 10vh;
+  padding: 10px 10px;
+  ::after {
+    width: 40px;
+    height: 40px;
+    content: "";
+  }
 `;
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+`;
+const GoHome = styled.div`
+  width: 40px;
+  height: 40px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 50%;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    img {
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 0 auto;
+    }
+  }
 `;
 const Loader = styled.div`
   display: block;
@@ -178,6 +205,11 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
+        <GoHome>
+          <Link to={`/`}>
+            <img src={require("../assets/icon-backward.svg").default} />
+          </Link>
+        </GoHome>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
@@ -188,11 +220,11 @@ function Coin() {
         <Fragment>
           <Overview>
             <OverviewItem>
-              <span>RANK:</span>
+              <span>Rank:</span>
               <strong>{infoData?.rank}</strong>
             </OverviewItem>
             <OverviewItem>
-              <span>SYMBOL:</span>
+              <span>Symbol:</span>
               <strong>${infoData?.symbol}</strong>
             </OverviewItem>
             <OverviewItem>
@@ -215,20 +247,20 @@ function Coin() {
           </Overview>
 
           <Tabs>
-            <Tab isActive={priceMatch != null}>
-              <Link to={`/${coinId}/price`}>Price</Link>
-            </Tab>
             <Tab isActive={chartMatch != null}>
               <Link to={`/${coinId}/chart`}>Chart</Link>
+            </Tab>
+            <Tab isActive={priceMatch != null}>
+              <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
 
           <Switch>
-            <Route path="/:coinId/price">
-              <Price />
-            </Route>
             <Route path="/:coinId/chart">
               <Chart coinId={coinId} />
+            </Route>
+            <Route path="/:coinId/price">
+              <Price />
             </Route>
           </Switch>
         </Fragment>

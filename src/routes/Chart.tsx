@@ -36,6 +36,7 @@ function Chart({ coinId }: ChartProps) {
             {
               name: "price",
               data: data?.map((price) => parseFloat(price.close)) ?? [],
+              // data: data?.map((price) => parseFloat(price.close)) ?? [],
               // ??(null병합 연산자)는 왼쪽 피연산자가 null || undefined 일때 오른쪽 피연산자를 반환
               // ApexChart에 들어가는 data는 number여야 하는데, data를 못받아왔을 때(undefined)의 경우(빈 배열을 반환)도 처리하는 것임
             },
