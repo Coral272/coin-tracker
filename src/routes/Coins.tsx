@@ -13,16 +13,31 @@ const Container = styled.div`
 
 const Header = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 10vh;
+  padding: 10px 10px;
+  ::before {
+    width: 40px;
+    height: 40px;
+    content: "";
+  }
+`;
+
+const ThemeToggle = styled.button`
+  width: 40px;
+  height: 40px;
+  background-color: rgba(1, 1, 1, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
 `;
 
 const CoinList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.itemColor};
+  color: ${(props) => props.theme.textColor};
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 10px;
@@ -62,7 +77,11 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
-function Coins() {
+
+interface ICoinsProps {
+  toggleDark: () => void;
+}
+function Coins({ toggleDark }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
     <Container>
@@ -72,6 +91,7 @@ function Coins() {
 
       <Header>
         <Title>Coins</Title>
+        <ThemeToggle onClick={toggleDark}>T</ThemeToggle>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

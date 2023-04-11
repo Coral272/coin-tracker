@@ -16,7 +16,7 @@ const BigItem = styled.div`
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.itemColor};
   border-radius: 10px;
   padding: 10px;
 
@@ -34,7 +34,7 @@ const OverviewItem = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   text-transform: uppercase;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.itemColor};
   border-radius: 10px;
   padding: 10px;
 
