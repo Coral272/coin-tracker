@@ -9,6 +9,9 @@ import {
 import { Fragment, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
+
 import Price from "./Price";
 import Chart from "./Chart";
 import styled from "styled-components";
@@ -39,8 +42,7 @@ const Title = styled.h1`
 const GoHome = styled.div`
   width: 40px;
   height: 40px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: ${(props) => props.theme.itemColor};
   border: none;
   border-radius: 50%;
   a {
@@ -104,7 +106,7 @@ const Tabs = styled.div`
 const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 600;
   padding: 7px 0;
   background-color: ${(props) => props.theme.itemColor};
   border-radius: 10px;
@@ -179,11 +181,9 @@ interface PriceInfoData {
   };
 }
 
-interface ICoinProps {
-  isDark: boolean;
-}
+interface ICoinProps {}
 
-function Coin({ isDark }: ICoinProps) {
+function Coin({}: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
@@ -199,6 +199,7 @@ function Coin({ isDark }: ICoinProps) {
     useQuery<PriceInfoData>(["tickers", coinId], () =>
       fetchCoinTickers(coinId)
     );
+  const isDark = useRecoilValue(isDarkAtom);
 
   const loading = infoLoading || tickersLoading;
   return (
@@ -211,7 +212,11 @@ function Coin({ isDark }: ICoinProps) {
       <Header>
         <GoHome>
           <Link to={`/`}>
-            <img src={require("../assets/icon-backward.svg").default} />
+            {isDark ? (
+              <img src={require("../assets/icon-home-dark-mode.png")} />
+            ) : (
+              <img src={require("../assets/icon-home-light-mode.png")} />
+            )}
           </Link>
         </GoHome>
         <Title>
@@ -261,7 +266,7 @@ function Coin({ isDark }: ICoinProps) {
 
           <Switch>
             <Route path="/:coinId/chart">
-              <Chart coinId={coinId} isDark={isDark} />
+              <Chart coinId={coinId} />
             </Route>
             <Route path="/:coinId/price">
               <Price coinId={coinId} />

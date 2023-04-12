@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
+
 import styled from "styled-components";
 import { fetchCoins } from "./api";
 
@@ -25,12 +28,20 @@ const Header = styled.header`
 `;
 
 const ThemeToggle = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(1, 1, 1, 0.2);
-  color: white;
+  background-color: ${(props) => props.theme.itemColor};
   border: none;
   border-radius: 50%;
+  img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+  }
 `;
 
 const CoinList = styled.ul``;
@@ -78,11 +89,14 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinsProps {
-  toggleDark: () => void;
-}
-function Coins({ toggleDark }: ICoinsProps) {
+interface ICoinsProps {}
+
+function Coins({}: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  const isDark = useRecoilValue(isDarkAtom);
+  const setIsDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setIsDarkAtom((current) => !current);
+
   return (
     <Container>
       <Helmet>
@@ -91,7 +105,13 @@ function Coins({ toggleDark }: ICoinsProps) {
 
       <Header>
         <Title>Coins</Title>
-        <ThemeToggle onClick={toggleDark}>T</ThemeToggle>
+        <ThemeToggle onClick={toggleDarkAtom}>
+          {isDark ? (
+            <img src={require("../assets/icon-dark-mode.png")} />
+          ) : (
+            <img src={require("../assets/icon-light-mode.png")} />
+          )}
+        </ThemeToggle>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
