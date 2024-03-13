@@ -27,7 +27,8 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
+  width: 100%;
+  height: 15vh;
   padding: 10px 10px;
   ::after {
     width: 40px;
@@ -36,7 +37,9 @@ const Header = styled.header`
   }
 `;
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 32px;
+  font-weight: 400;
+  text-align: center;
   color: ${(props) => props.theme.accentColor};
 `;
 const GoHome = styled.div`

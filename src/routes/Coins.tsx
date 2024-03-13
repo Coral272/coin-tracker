@@ -18,7 +18,8 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
+  width: 100%;
+  height: 15vh;
   padding: 10px 10px;
   ::before {
     width: 40px;
@@ -66,7 +67,9 @@ const Coin = styled.li`
 `;
 
 const Title = styled.h1`
-  font-size: 48px;
+  font-size: 32px;
+  font-weight: 400;
+  text-align: center;
   color: ${(props) => props.theme.accentColor};
 `;
 const Loader = styled.div`

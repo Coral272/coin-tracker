@@ -104,13 +104,6 @@ function Price({ coinId }: PriceProps) {
             <span>Change in 1 hour</span>
             <strong>{data?.quotes.USD.percent_change_1h}</strong>
             {priceState(data?.quotes.USD.percent_change_1h)}
-            {/* {data?.quotes.USD.percent_change_1h > 0 ? (
-              <img src={require("../assets/chart-arrow-rise.png")} />
-            ) : data?.quotes.USD.percent_change_1h == 0 ? (
-              <img src={require("../assets/chart-equal.png")} />
-            ) : (
-              <img src={require("../assets/chart-arrow-descent.png")} />
-            )} */}
           </OverviewItem>
           <OverviewItem>
             <span>Change in 6 hours</span>
